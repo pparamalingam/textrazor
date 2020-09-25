@@ -22,14 +22,14 @@ module TextRazor
       ::RestClient.post(
         TextRazor.configuration.url,
         build_query(text, options),
-        accept_encoding: 'gzip'
+        {'X-TextRazor-Key': options[:api_key]}
       )
     end
 
     private
 
     def self.build_query(text, options)
-      query = {"text" => text, "apiKey" => options.delete(:api_key)}
+      query = {"text" => text, "apiKey" => options[:api_key]}
 
       options.each do |key, value|
         value = value.join(",") if value.is_a?(Array)
